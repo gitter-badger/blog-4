@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="ja"
+>
+<head>
+    <title>DebianでZNCを使って、快適なIRC生活を送る - ひつまぶし食べたい</title>
+    <!-- Using the latest rendering mode for IE -->
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <link href="http://www.hitsumabushi.org/favicon.ico" rel="icon">
+
+<link rel="canonical" href="http://www.hitsumabushi.org/2014/0609_1634.html">
+
+        <meta name="author" content="hitsumabushi" />
+        <meta name="keywords" content="Debian" />
+        <meta name="description" content="やりたいこと 最近、自分の興味のあるソフトウェアのIRCによく引きこもっています。 自宅のPCはつけっぱなしにしておけば、全部のログを見れるのですが、 会社やスマホで見るときには、接続している間のことしか確認できず、若干もどかしいです。 そういうわけで、ZNCサーバーを立てて、IRCのログを出先からでも確認できるようにしましょう。 実現すること スマホからIRCのログを見る 作業環境 # lsb_release -a No LSB modules are available. Distributor ID: Debian Description ..." />
+
+        <meta property="og:site_name" content="ひつまぶし食べたい" />
+        <meta property="og:type" content="article"/>
+        <meta property="og:title" content="DebianでZNCを使って、快適なIRC生活を送る"/>
+        <meta property="og:url" content="http://www.hitsumabushi.org/2014/0609_1634.html"/>
+        <meta property="og:description" content="やりたいこと 最近、自分の興味のあるソフトウェアのIRCによく引きこもっています。 自宅のPCはつけっぱなしにしておけば、全部のログを見れるのですが、 会社やスマホで見るときには、接続している間のことしか確認できず、若干もどかしいです。 そういうわけで、ZNCサーバーを立てて、IRCのログを出先からでも確認できるようにしましょう。 実現すること スマホからIRCのログを見る 作業環境 # lsb_release -a No LSB modules are available. Distributor ID: Debian Description ..."/>
+        <meta property="article:published_time" content="2014-06-09" />
+            <meta property="article:section" content="blog" />
+            <meta property="article:tag" content="Debian" />
+            <meta property="article:author" content="hitsumabushi" />
+
+    <meta name="twitter:card" content="summary">
+        <meta name="twitter:site" content="@__hitsumabushi__">
+        <meta name="twitter:creator" content="@__hitsumabushi__">
+    <meta name="twitter:domain" content="http://www.hitsumabushi.org">
+
+    <!-- Bootstrap -->
+        <link rel="stylesheet" href="http://www.hitsumabushi.org/theme/css/bootstrap.min.css" type="text/css"/>
+    <link href="http://www.hitsumabushi.org/theme/css/font-awesome.min.css" rel="stylesheet">
+
+    <link href="http://www.hitsumabushi.org/theme/css/pygments/native.css" rel="stylesheet">
+    <link rel="stylesheet" href="http://www.hitsumabushi.org/theme/css/style.css" type="text/css"/>
+
+        <link href="http://www.hitsumabushi.org/feeds/all.atom.xml" type="application/atom+xml" rel="alternate"
+              title="ひつまぶし食べたい ATOM Feed"/>
+
+</head>
+<body>
+
+<div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-ex1-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a href="http://www.hitsumabushi.org/" class="navbar-brand">
+ひつまぶし食べたい            </a>
+        </div>
+        <div class="collapse navbar-collapse navbar-ex1-collapse">
+            <ul class="nav navbar-nav">
+                        <li class="active">
+                            <a href="http://www.hitsumabushi.org/category/blog.html">Blog</a>
+                        </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+              <li><a href="http://www.hitsumabushi.org/archives.html"><i class="fa fa-th-list"></i><span class="icon-label">Archives</span></a></li>
+            </ul>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+</div> <!-- /.navbar -->
+<!-- Banner -->
+<!-- End Banner -->
+<div class="container">
+    <div class="row">
+        <div class="col-sm-9">
+
+    <section id="content">
+        <article>
+            <header class="page-header">
+                <h1>
+                    <a href="http://www.hitsumabushi.org/2014/0609_1634.html"
+                       rel="bookmark"
+                       title="Permalink to DebianでZNCを使って、快適なIRC生活を送る">
+                        DebianでZNCを使って、快適なIRC生活を送る
+                    </a>
+                </h1>
+            </header>
+            <div class="entry-content">
+                <div class="panel">
+                    <div class="panel-body">
+<footer class="post-info">
+    <span class="label label-default">Date</span>
+    <span class="published">
+        <i class="fa fa-calendar"></i><time datetime="2014-06-09T16:34:00+09:00"> Mon 09 June 2014</time>
+    </span>
+
+
+
+<span class="label label-default">Tags</span>
+	<a href="http://www.hitsumabushi.org/tag/debian.html">Debian</a>
+    
+</footer><!-- /.post-info -->                    </div>
+                </div>
+                <h2 id="_1">やりたいこと</h2>
+<p>最近、自分の興味のあるソフトウェアのIRCによく引きこもっています。<br />
+自宅のPCはつけっぱなしにしておけば、全部のログを見れるのですが、<br />
+会社やスマホで見るときには、接続している間のことしか確認できず、若干もどかしいです。</p>
+<p>そういうわけで、ZNCサーバーを立てて、IRCのログを出先からでも確認できるようにしましょう。</p>
+<h2 id="_2">実現すること</h2>
+<ul>
+<li>スマホからIRCのログを見る</li>
+</ul>
+<h2 id="_3">作業環境</h2>
+<div class="highlight"><pre><span class="c"># lsb_release  -a</span>
+No LSB modules are available.
+Distributor ID: Debian
+Description:  Debian GNU/Linux 7.5 <span class="o">(</span>wheezy<span class="o">)</span>
+Release:  7.5
+Codename: wheezy
+</pre></div>
+
+
+<h2 id="_4">インストール</h2>
+<p>色んなブログでは、build-depして自前でビルドするように書かれているが、今はパッケージがあるので、それを使おう。</p>
+<div class="highlight"><pre><span class="nv">$ </span>sudo apt-get install znc
+</pre></div>
+
+
+<h2 id="_5">設定</h2>
+<ol>
+<li>
+<p>ユーザーの作成<br />
+  zncを動かすユーザーを作成しておく。</p>
+<div class="highlight"><pre><span class="nv">$ </span>useradd -d /home/znc -s /bin/bash -m znc
+</pre></div>
+
+
+</li>
+<li>
+<p>設定ファイルの作成<br />
+  適当に答えるだけです。<br />
+  設定値もモジュールも後からどうにでもなると思うので、気にしない。<br />
+  webadminを入れて、webから設定をできるようにしておきます。</p>
+<div class="highlight"><pre><span class="nv">$ </span>znc --makeconf
+<span class="o">[</span> ** <span class="o">]</span> Building new config
+<span class="o">[</span> ** <span class="o">]</span>.
+<span class="o">[</span> ** <span class="o">]</span> First <span class="nb">let</span><span class="s1">&#39;s start with some global settings...</span>
+<span class="s1">[ ** ].</span>
+<span class="s1">[ ?? ] What port would you like ZNC to listen on? (1025 to 65535): 6667</span>
+<span class="s1">[ ?? ] Would you like ZNC to listen using SSL? (yes/no) [no]:.</span>
+<span class="s1">[ ?? ] Would you like ZNC to listen using ipv6? (yes/no) [yes]: no</span>
+<span class="s1">[ ?? ] Listen Host (Blank for all ips):.</span>
+<span class="s1">[ ok ] Verifying the listener....</span>
+<span class="s1">[ ** ].</span>
+<span class="s1">[ ** ] -- Global Modules --</span>
+<span class="s1">[ ** ].</span>
+<span class="s1">[ ** ] +-----------+----------------------------------------------------------+</span>
+<span class="s1">[ ** ] | Name      | Description                                              |</span>
+<span class="s1">[ ** ] +-----------+----------------------------------------------------------+</span>
+<span class="s1">[ ** ] | partyline | Internal channels and queries for users connected to znc |</span>
+<span class="s1">[ ** ] | webadmin  | Web based administration module                          |</span>
+<span class="s1">[ ** ] +-----------+----------------------------------------------------------+</span>
+<span class="s1">[ ** ] And 13 other (uncommon) modules. You can enable those later.</span>
+<span class="s1">[ ** ].</span>
+<span class="s1">[ ?? ] Load global module &lt;partyline&gt;? (yes/no) [no]:.</span>
+<span class="s1">[ ?? ] Load global module &lt;webadmin&gt;? (yes/no) [no]: yes </span>
+<span class="s1">[ ** ].</span>
+<span class="s1">[ ** ] Now we need to set up a user...</span>
+<span class="s1">[ ** ] ZNC needs one user per IRC network.</span>
+<span class="s1">[ ** ].</span>
+<span class="s1">[ ?? ] Username (AlphaNumeric): hitsumabushi</span>
+<span class="s1">[ ?? ] Enter Password:.</span>
+<span class="s1">[ ?? ] Confirm Password:.</span>
+<span class="s1">[ ?? ] Would you like this user to be an admin? (yes/no) [yes]:.</span>
+<span class="s1">[ ?? ] Nick [hitsumabushi]:.</span>
+<span class="s1">[ ?? ] Alt Nick [hitsumabushi_]:.</span>
+<span class="s1">[ ?? ] Ident [hitsumabushi]:.</span>
+<span class="s1">[ ?? ] Real Name [Got ZNC?]: &lt;name&gt;</span>
+<span class="s1">[ ?? ] Bind Host (optional):.</span>
+<span class="s1">[ ?? ] Number of lines to buffer per channel [50]:.</span>
+<span class="s1">[ ?? ] Would you like to keep buffers after replay? (yes/no) [no]:.</span>
+<span class="s1">[ ?? ] Default channel modes [+stn]:.</span>
+<span class="s1">[ ** ].</span>
+<span class="s1">[ ** ] -- User Modules --</span>
+<span class="s1">[ ** ].</span>
+<span class="s1">[ ** ] +-------------+------------------------------------------------------------------------------------------------------------+</span>
+<span class="s1">[ ** ] | Name        | Description                                                                                                |</span>
+<span class="s1">[ ** ] +-------------+------------------------------------------------------------------------------------------------------------+</span>
+<span class="s1">[ ** ] | admin       | Dynamic configuration of users/settings through IRC. Allows editing only yourself if you&#39;</span>re not ZNC admin. <span class="p">|</span>
+<span class="o">[</span> ** <span class="o">]</span> <span class="p">|</span> chansaver   <span class="p">|</span> Keep config up-to-date when user joins/parts                                                               <span class="p">|</span>
+<span class="o">[</span> ** <span class="o">]</span> <span class="p">|</span> keepnick    <span class="p">|</span> Keep trying <span class="k">for</span> your primary nick                                                                          <span class="p">|</span>
+<span class="o">[</span> ** <span class="o">]</span> <span class="p">|</span> kickrejoin  <span class="p">|</span> Autorejoin on kick                                                                                         <span class="p">|</span>
+<span class="o">[</span> ** <span class="o">]</span> <span class="p">|</span> nickserv    <span class="p">|</span> Auths you with NickServ                                                                                    <span class="p">|</span>
+<span class="o">[</span> ** <span class="o">]</span> <span class="p">|</span> perform     <span class="p">|</span> Keeps a list of commands to be executed when ZNC connects to IRC.                                          <span class="p">|</span>
+<span class="o">[</span> ** <span class="o">]</span> <span class="p">|</span> simple_away <span class="p">|</span> Auto away when last client disconnects                                                                     <span class="p">|</span>
+<span class="o">[</span> ** <span class="o">]</span> +-------------+------------------------------------------------------------------------------------------------------------+
+<span class="o">[</span> ** <span class="o">]</span> And <span class="m">36</span> other <span class="o">(</span>uncommon<span class="o">)</span> modules. You can <span class="nb">enable </span>those later.
+<span class="o">[</span> ** <span class="o">]</span>.
+<span class="o">[</span> ?? <span class="o">]</span> Load module &lt;admin&gt;? <span class="o">(</span>yes/no<span class="o">)</span> <span class="o">[</span>no<span class="o">]</span>: yes
+<span class="o">[</span> ?? <span class="o">]</span> Load module &lt;chansaver&gt;? <span class="o">(</span>yes/no<span class="o">)</span> <span class="o">[</span>no<span class="o">]</span>:.
+<span class="o">[</span> ?? <span class="o">]</span> Load module &lt;keepnick&gt;? <span class="o">(</span>yes/no<span class="o">)</span> <span class="o">[</span>no<span class="o">]</span>:.
+<span class="o">[</span> ?? <span class="o">]</span> Load module &lt;kickrejoin&gt;? <span class="o">(</span>yes/no<span class="o">)</span> <span class="o">[</span>no<span class="o">]</span>:.
+<span class="o">[</span> ?? <span class="o">]</span> Load module &lt;nickserv&gt;? <span class="o">(</span>yes/no<span class="o">)</span> <span class="o">[</span>no<span class="o">]</span>: yes
+<span class="o">[</span> ?? <span class="o">]</span> Load module &lt;perform&gt;? <span class="o">(</span>yes/no<span class="o">)</span> <span class="o">[</span>no<span class="o">]</span>:.
+<span class="o">[</span> ?? <span class="o">]</span> Load module &lt;simple_away&gt;? <span class="o">(</span>yes/no<span class="o">)</span> <span class="o">[</span>no<span class="o">]</span>: yes
+<span class="o">[</span> ** <span class="o">]</span>.
+<span class="o">[</span> ** <span class="o">]</span> -- IRC Servers --
+<span class="o">[</span> ** <span class="o">]</span> Only add servers from the same IRC network.
+<span class="o">[</span> ** <span class="o">]</span> If a server from the list can<span class="err">&#39;</span>t be reached, another server will be used.
+<span class="o">[</span> ** <span class="o">]</span>.
+<span class="o">[</span> ?? <span class="o">]</span> IRC server <span class="o">(</span>host only<span class="o">)</span>: irc.freenode.net
+<span class="o">[</span> ?? <span class="o">]</span> <span class="o">[</span>irc.freenode.net<span class="o">]</span> Port <span class="o">(</span><span class="m">1</span> to 65535<span class="o">)</span> <span class="o">[</span>6667<span class="o">]</span>:.
+<span class="o">[</span> ?? <span class="o">]</span> <span class="o">[</span>irc.freenode.net<span class="o">]</span> Password <span class="o">(</span>probably empty<span class="o">)</span>:....
+<span class="o">[</span> ?? <span class="o">]</span> Does this server use SSL? <span class="o">(</span>yes/no<span class="o">)</span> <span class="o">[</span>no<span class="o">]</span>:.
+<span class="o">[</span> ** <span class="o">]</span>.
+<span class="o">[</span> ?? <span class="o">]</span> Would you like to add another server <span class="k">for</span> this IRC network? <span class="o">(</span>yes/no<span class="o">)</span> <span class="o">[</span>no<span class="o">]</span>:.
+<span class="o">[</span> ** <span class="o">]</span>.
+<span class="o">[</span> ** <span class="o">]</span> -- Channels --
+<span class="o">[</span> ** <span class="o">]</span>.
+<span class="o">[</span> ?? <span class="o">]</span> Would you like to add a channel <span class="k">for</span> ZNC to automatically join? <span class="o">(</span>yes/no<span class="o">)</span> <span class="o">[</span>yes<span class="o">]</span>:.
+<span class="o">[</span> ?? <span class="o">]</span> Channel name: <span class="c">#ceph</span>
+<span class="o">[</span> ?? <span class="o">]</span> Would you like to add another channel? <span class="o">(</span>yes/no<span class="o">)</span> <span class="o">[</span>no<span class="o">]</span>:.
+<span class="o">[</span> ** <span class="o">]</span>.
+<span class="o">[</span> ?? <span class="o">]</span> Would you like to <span class="nb">set </span>up another user <span class="o">(</span>e.g. <span class="k">for</span> connecting to another network<span class="o">)</span>? <span class="o">(</span>yes/no<span class="o">)</span> <span class="o">[</span>no<span class="o">]</span>:.
+<span class="o">[</span> ok <span class="o">]</span> Writing config <span class="o">[</span>/home/znc/.znc/configs/znc.conf<span class="o">]</span>....
+<span class="o">[</span> ** <span class="o">]</span>.
+<span class="o">[</span> ** <span class="o">]</span> To connect to this ZNC you need to connect to it as your IRC server
+<span class="o">[</span> ** <span class="o">]</span> using the port that you supplied.  You have to supply your login info
+<span class="o">[</span> ** <span class="o">]</span> as the IRC server password like this: user:pass.
+<span class="o">[</span> ** <span class="o">]</span>.
+<span class="o">[</span> ** <span class="o">]</span> Try something like this in your IRC client...
+<span class="o">[</span> ** <span class="o">]</span> /server &lt;znc_server_ip&gt; <span class="m">6667</span> hitsumabushi:&lt;pass&gt;
+<span class="o">[</span> ** <span class="o">]</span> And this in your browser...
+<span class="o">[</span> ** <span class="o">]</span> http://&lt;znc_server_ip&gt;:6667/
+<span class="o">[</span> ** <span class="o">]</span>.
+<span class="o">[</span> ?? <span class="o">]</span> Launch ZNC now? <span class="o">(</span>yes/no<span class="o">)</span> <span class="o">[</span>yes<span class="o">]</span>:...
+<span class="o">[</span> ok <span class="o">]</span> Opening Config <span class="o">[</span>/home/znc/.znc/configs/znc.conf<span class="o">]</span>....
+<span class="o">[</span> ok <span class="o">]</span> Loading Global Module <span class="o">[</span>webadmin<span class="o">]</span>... <span class="o">[</span>/usr/lib/znc/webadmin.so<span class="o">]</span>
+<span class="o">[</span> ok <span class="o">]</span> Binding to port <span class="o">[</span>6667<span class="o">]</span>....
+<span class="o">[</span> ** <span class="o">]</span> Loading user <span class="o">[</span>hitsumabushi<span class="o">]</span>
+<span class="o">[</span> ok <span class="o">]</span> Adding Server <span class="o">[</span>irc.freenode.net <span class="m">6667</span> <span class="o">]</span>....
+<span class="o">[</span> ok <span class="o">]</span> Adding Server <span class="o">[</span>irc.oftc.net <span class="m">6667</span> <span class="o">]</span>....
+<span class="o">[</span> ok <span class="o">]</span> Loading Module <span class="o">[</span>admin<span class="o">]</span>... <span class="o">[</span>/usr/lib/znc/admin.so<span class="o">]</span>
+<span class="o">[</span> ok <span class="o">]</span> Loading Module <span class="o">[</span>nickserv<span class="o">]</span>... <span class="o">[</span>/usr/lib/znc/nickserv.so<span class="o">]</span>
+<span class="o">[</span> ok <span class="o">]</span> Loading Module <span class="o">[</span>simple_away<span class="o">]</span>... <span class="o">[</span>/usr/lib/znc/simple_away.so<span class="o">]</span>
+<span class="o">[</span> ok <span class="o">]</span> Forking into the background... <span class="o">[</span>pid: 27494<span class="o">]</span>
+<span class="o">[</span> ** <span class="o">]</span> ZNC 0.206+deb2 - http://znc.in
+</pre></div>
+
+
+</li>
+<li>
+<p>Webからzncに接続する<br />
+  ブラウザから http(s)://hostname:6667 にアクセスする<br />
+  ログインして、List Users→Editを開いて、log モジュールにチェックを入れておくと、IRCのログを書いてくれる。</p>
+</li>
+<li>
+<p>クライアントから接続する<br />
+  xchatでやってみた。<br />
+  SSLで接続する場合には、ネットワーク一覧の設定から、SSLで接続するように設定をし、SSL不正な証明書を受け入れるようにしておく必要がある。 <br />
+  例として、zncサーバーが blog.hitsumabushi.org:6667, ユーザー名が oftc, パスワードが 123456 というユーザーで接続したことにすると、以下のようになる。<br />
+<img alt="XChat" src="../images/2014/XChat_201406061.jpg" /></p>
+</li>
+</ol>
+<h2 id="_6">おわり</h2>
+<p>これで快適なIRC生活がおくれるぞ！</p>
+            </div>
+            <!-- /.entry-content -->
+    <hr/>
+    <section class="comments" id="comments">
+        <h2>Comments</h2>
+
+        <div id="disqus_thread"></div>
+        <script type="text/javascript">
+            /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+            var disqus_shortname = 'hitsumabushi'; // required: replace example with your forum shortname
+
+                    var disqus_identifier = 'debiandezncwoshi-tsute-kuai-shi-naircsheng-huo-wosong-ru';
+                var disqus_url = 'http://www.hitsumabushi.org/2014/0609_1634.html';
+
+            var disqus_config = function () {
+                this.language = "ja";
+            };
+
+            /* * * DON'T EDIT BELOW THIS LINE * * */
+            (function () {
+                var dsq = document.createElement('script');
+                dsq.type = 'text/javascript';
+                dsq.async = true;
+                dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+                (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+            })();
+        </script>
+        <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by
+            Disqus.</a></noscript>
+        <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+
+    </section>
+        </article>
+    </section>
+
+        </div>
+        <div class="col-sm-3" id="sidebar">
+            <aside>
+
+<section class="well well-sm">
+    <ul class="list-group list-group-flush">
+            <li class="list-group-item"><h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Social</span></h4>
+              <ul class="list-group" id="social">
+                <li class="list-group-item"><a href="https://twitter.com/_hitsumabushi_"><i class="fa fa-twitter-square fa-lg"></i> Twitter</a></li>
+                <li class="list-group-item"><a href="https://github.com/hitsumabushi"><i class="fa fa-github-square fa-lg"></i> Github</a></li>
+              </ul>
+            </li>
+
+            <li class="list-group-item"><h4><i class="fa fa-home fa-lg"></i><span class="icon-label">Recent Posts</span></h4>
+                <ul class="list-group" id="recentposts">
+                    <li class="list-group-item">
+                        <a href="http://www.hitsumabushi.org/2014/1230_0548.html">
+                            VPCの学習中のメモ
+                        </a>
+                    </li>
+                    <li class="list-group-item">
+                        <a href="http://www.hitsumabushi.org/2014/1230_0257.html">
+                            VMware環境でのNPIVについて
+                        </a>
+                    </li>
+                    <li class="list-group-item">
+                        <a href="http://www.hitsumabushi.org/2014/1230_0130.html">
+                            VCP-DCVの概要 : VCP550
+                        </a>
+                    </li>
+                    <li class="list-group-item">
+                        <a href="http://www.hitsumabushi.org/2014/1217_2345.html">
+                            fluentd-plugin-secure-forward のソースを読んでみる(Input プラグイン編)
+                        </a>
+                    </li>
+                    <li class="list-group-item">
+                        <a href="http://www.hitsumabushi.org/2014/1217_1440.html">
+                            VMware 環境でのMACアドレス割当て
+                        </a>
+                    </li>
+                </ul>
+            </li>
+
+
+            <li class="list-group-item"><a href="http://www.hitsumabushi.org/"><h4><i class="fa fa-tags fa-lg"></i><span class="icon-label">Tags</span></h4></a>
+                <ul class="list-group " id="tags">
+                    <li class="list-group-item tag-1">
+                        <a href="http://www.hitsumabushi.org/tag/debian.html">
+                            Debian
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-1">
+                        <a href="http://www.hitsumabushi.org/tag/vmware.html">
+                            VMware
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-1">
+                        <a href="http://www.hitsumabushi.org/tag/vcp-dcv.html">
+                            VCP-DCV
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-2">
+                        <a href="http://www.hitsumabushi.org/tag/ruby.html">
+                            Ruby
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-4">
+                        <a href="http://www.hitsumabushi.org/tag/ctmcp.html">
+                            CTMCP
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-4">
+                        <a href="http://www.hitsumabushi.org/tag/pelican.html">
+                            pelican
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-4">
+                        <a href="http://www.hitsumabushi.org/tag/linux.html">
+                            Linux
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-4">
+                        <a href="http://www.hitsumabushi.org/tag/paper.html">
+                            Paper
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-4">
+                        <a href="http://www.hitsumabushi.org/tag/npiv.html">
+                            NPIV
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-4">
+                        <a href="http://www.hitsumabushi.org/tag/storage.html">
+                            Storage
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-4">
+                        <a href="http://www.hitsumabushi.org/tag/hadoop.html">
+                            Hadoop
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-4">
+                        <a href="http://www.hitsumabushi.org/tag/emacs.html">
+                            Emacs
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-4">
+                        <a href="http://www.hitsumabushi.org/tag/ci.html">
+                            CI
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-4">
+                        <a href="http://www.hitsumabushi.org/tag/webhdfs.html">
+                            WebHDFS
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-4">
+                        <a href="http://www.hitsumabushi.org/tag/fluentd.html">
+                            Fluentd
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-4">
+                        <a href="http://www.hitsumabushi.org/tag/ipv6.html">
+                            IPv6
+                        </a>
+                    </li>
+                    <li class="list-group-item tag-4">
+                        <a href="http://www.hitsumabushi.org/tag/droneio.html">
+                            drone.io
+                        </a>
+                    </li>
+                </ul>
+            </li>
+    <li class="list-group-item"><h4><i class="fa fa-external-link-square fa-lg"></i><span class="icon-label">Links</span></h4>
+      <ul class="list-group" id="links">
+        <li class="list-group-item">
+            <a href="http://hitsumabushi-pc.blogspot.jp/2011/07/blogger.html" target="_blank">
+                Old my blog
+            </a>
+        </li>
+      </ul>
+    </li>
+    </ul>
+</section>
+            </aside>
+        </div>
+    </div>
+</div>
+<footer>
+   <div class="container">
+      <hr>
+      <div class="row">
+         <div class="col-xs-10">&copy; 2014 hitsumabushi
+            &middot; Powered by <a href="https://github.com/DandyDev/pelican-bootstrap3" target="_blank">pelican-bootstrap3</a>,
+            <a href="http://docs.getpelican.com/" target="_blank">Pelican</a>,
+            <a href="http://getbootstrap.com" target="_blank">Bootstrap</a>         </div>
+         <div class="col-xs-2"><p class="pull-right"><i class="fa fa-arrow-up"></i> <a href="#">Back to top</a></p></div>
+      </div>
+   </div>
+</footer>
+<script src="http://www.hitsumabushi.org/theme/js/jquery.min.js"></script>
+
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="http://www.hitsumabushi.org/theme/js/bootstrap.min.js"></script>
+
+<!-- Enable responsive features in IE8 with Respond.js (https://github.com/scottjehl/Respond) -->
+<script src="http://www.hitsumabushi.org/theme/js/respond.min.js"></script>
+
+    <!-- Disqus -->
+    <script type="text/javascript">
+        /* * * CONFIGURATION VARIABLES: EDIT BEFORE PASTING INTO YOUR WEBPAGE * * */
+        var disqus_shortname = 'hitsumabushi'; // required: replace example with your forum shortname
+
+        /* * * DON'T EDIT BELOW THIS LINE * * */
+        (function () {
+            var s = document.createElement('script');
+            s.async = true;
+            s.type = 'text/javascript';
+            s.src = '//' + disqus_shortname + '.disqus.com/count.js';
+            (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+        }());
+    </script>
+    <!-- End Disqus Code -->
+    <!-- Google Analytics -->
+    <script type="text/javascript">
+
+        var _gaq = _gaq || [];
+        _gaq.push(['_setAccount', 'UA-24727901-9']);
+        _gaq.push(['_trackPageview']);
+
+        (function () {
+            var ga = document.createElement('script');
+            ga.type = 'text/javascript';
+            ga.async = true;
+            ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(ga, s);
+        })();
+    </script>
+    <!-- End Google Analytics Code -->
+
+</body>
+</html>
